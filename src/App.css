@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+.list li {
+  list-style: none;
+  border: 1px solid #CCC;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.list .title {
+  font-weight: 700;
+  background-color: #333;
+  color: #EEE;
+  padding: 4px 8px;
+  border-radius: 8px;
+  margin-right: 8px;
+  display: inline-block;
+  width: 64px;
+  text-align: center;
+}
+
+.list .loading {
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.list .result {
+  border: 1px solid #CCC;
+  padding: 4px 8px;
+  margin-right: 8px;
+}
+
+.list button:hover {
+  cursor: pointer;
+}
