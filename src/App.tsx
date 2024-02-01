@@ -1,35 +1,59 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import * as React from "react";
+import Item, { ItemProps } from "./Item";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+const longTask = async (): Promise<void> => {
+  const randomTimeSeconds = Math.random() * 5000;
+  return new Promise<void>((resolve, reject) => {
+    window.setTimeout(() => {
+      const value = Math.floor(Math.random() * 100);
+      const isEvent = value % 2 === 0;
+      if (isEvent) {
+        resolve();
+      } else {
+        reject();
+      }
+    }, randomTimeSeconds);
+  });
+};
+
+export type AppProps = {};
+
+const App: React.FC<AppProps> = () => {
+  console.log("Re-rendering: App");
+  const items: ItemProps[] = ["foo", "barr", "bob", "john"].map(
+    (name): ItemProps => {
+      return {
+        title: name,
+        onSubmit: (controller) => {
+          controller.setLoadingStatus("LOADING");
+          longTask()
+            .then(() => {
+              controller.setLoadingStatus("READY");
+              controller.setResult("SUCCESS");
+            })
+            .catch(() => {
+              controller.setLoadingStatus("READY");
+              controller.setResult("FAILED");
+            })
+            .finally(() => {
+              controller.setLoadingStatus("READY");
+            });
+        },
+      };
+    }
+  );
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div>
+      <h2>List Item Controller sample</h2>
+      <ul className="list">
+        {items.map((item, index) => {
+          return <Item key={index.toString()} {...item} />;
+        })}
+      </ul>
+    </div>
+  );
+};
 
-export default App
+export default App;
