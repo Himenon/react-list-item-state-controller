@@ -35,7 +35,9 @@ const Item: React.FC<ItemProps> = (props) => {
       <span className="title">{props.title}</span>
       <span className="loading">Loading: {loadingStatus}</span>
       <span className="result">Result: {result}</span>
-      <button onClick={handleClick} disabled={loadingStatus === "LOADING"}>Submit</button>
+      <button onClick={handleClick} disabled={loadingStatus === "LOADING"}>
+        Submit
+      </button>
     </li>
   );
 };

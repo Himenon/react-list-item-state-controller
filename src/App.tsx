@@ -41,7 +41,7 @@ const App: React.FC<AppProps> = () => {
             });
         },
       };
-    }
+    },
   );
 
   return (
